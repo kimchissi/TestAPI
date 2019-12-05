@@ -53,12 +53,12 @@ namespace PaymentApi.Controllers
                     myDBCommand.Parameters.Add(outputParameter);
                     myDBConnect.DoUpdateUsingCmdObj(myDBCommand);
                     
-                    int id = 0;
+                    int id;
                     id = int.Parse(myDBCommand.Parameters["@theVirtualWalletID"].Value.ToString());
                     return id;
                 }
             }
-            return 0;
+            return null;
 
         }
 

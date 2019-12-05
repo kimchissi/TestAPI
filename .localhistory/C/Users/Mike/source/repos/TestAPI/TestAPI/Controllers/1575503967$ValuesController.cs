@@ -19,7 +19,7 @@ namespace PaymentApi.Controllers
         String SqlConnectString = "server=cis-mssql1.temple.edu;Database=fa19_3344_tug91045;User id=tug91045;Password=ShuY4yoo";
 
         [HttpPost("CreateVirtualWallet")]
-        public int CreateVirtualWallet(String name, String bankAccountType, String bankAccountNumber, int merchantAccountID, String apiKey)
+        public String CreateVirtualWallet(String name, String bankAccountType, String bankAccountNumber, int merchantAccountID, String apiKey)
         {
             VirtualWalletTestAPI wallet = new VirtualWalletTestAPI();
             wallet.Name = name;
@@ -48,17 +48,17 @@ namespace PaymentApi.Controllers
                     myDBCommand.Parameters.AddWithValue("@theName", name);
                     myDBCommand.Parameters.AddWithValue("@theBankAccountType", bankAccountType);
                     myDBCommand.Parameters.AddWithValue("@theBankAccountNumber", bankAccountNumber);
-                    SqlParameter outputParameter = new SqlParameter("@theVirtualWalletID", 0);
+                    SqlParameter outputParameter = new SqlParameter("@theVirtualWalletID", null);
                     outputParameter.Direction = ParameterDirection.Output;
                     myDBCommand.Parameters.Add(outputParameter);
                     myDBConnect.DoUpdateUsingCmdObj(myDBCommand);
                     
-                    int id = 0;
-                    id = int.Parse(myDBCommand.Parameters["@theVirtualWalletID"].Value.ToString());
+                    String id;
+                    id = myDBCommand.Parameters["@theVirtualWalletID"].Value.ToString();
                     return id;
                 }
             }
-            return 0;
+            return null;
 
         }
 
