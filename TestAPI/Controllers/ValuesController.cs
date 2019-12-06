@@ -10,7 +10,8 @@ using TestAPI;
 
 namespace PaymentApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Route("api/service/PaymentGateway")]
     public class ValuesController : Controller
     {
         DBConnect myDBConnect = new DBConnect();
@@ -18,14 +19,10 @@ namespace PaymentApi.Controllers
         //String SqlConnectString = "server=127.0.0.1,5555;Database=fa19_3342_tug91045;User id=tug91045;Password=ShuY4yoo";
         String SqlConnectString = "server=cis-mssql1.temple.edu;Database=fa19_3342_tug91045;User id=tug91045;Password=ShuY4yoo";
 
-        [HttpPost("CreateVirtualWallet")]
-        public int CreateVirtualWallet(String email, String cardType, String accountNumber, int merchantAccountID, String apiKey)
+        [HttpPost("CreateVirtualWallet/{merchantAccountID}/{apiKey}")]
+        public int CreateVirtualWallet([FromBody]AccountHolderInformation accountHolderInformation, int merchantAccountID, String apiKey)
         {
             VirtualWalletTestAPI wallet = new VirtualWalletTestAPI();
-            wallet.Email = email;
-            wallet.Balance = 0.0;
-            wallet.CardType = cardType;
-            wallet.AccountNumber = accountNumber;
             myDBCommand.Parameters.Clear();
             myDBCommand.CommandText = "tp_CheckForAPIKeyAndMerchantAccountID";
             myDBCommand.Parameters.AddWithValue("@theMerchantAccountID", merchantAccountID);
@@ -37,9 +34,9 @@ namespace PaymentApi.Controllers
                 myDBCommand.Parameters.Clear();
                 myDBCommand.CommandType = CommandType.StoredProcedure;
                 myDBCommand.CommandText = "tp_CreateVirtualWallet";
-                myDBCommand.Parameters.AddWithValue("@theEmail", email);
-                myDBCommand.Parameters.AddWithValue("@theCardType", cardType);
-                myDBCommand.Parameters.AddWithValue("@theAccountNumber", accountNumber);
+                myDBCommand.Parameters.AddWithValue("@theEmail", accountHolderInformation.Email);
+                myDBCommand.Parameters.AddWithValue("@theCardType", accountHolderInformation.CardType);
+                myDBCommand.Parameters.AddWithValue("@theAccountNumber", accountHolderInformation.AccountNumber);
                 SqlParameter outputParameter = new SqlParameter("@theVirtualWalletID", 0);
                 outputParameter.Direction = ParameterDirection.Output;
                 myDBCommand.Parameters.Add(outputParameter);
@@ -54,7 +51,7 @@ namespace PaymentApi.Controllers
 
         }
 
-        [HttpGet("GetTransactions")]
+        [HttpGet("GetTransactions/{virtualWalletEmail}/{merchantAccountID}/{apiKey}")]
         public List<TransactionsTestAPI> GetTransactions(int virtualWalletEmail, int merchantAccountID, String apiKey)
         {
             List<TransactionsTestAPI> list = new List<TransactionsTestAPI>();
