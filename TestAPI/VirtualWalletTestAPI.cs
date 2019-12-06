@@ -7,15 +7,15 @@ namespace TestAPI
 {
     public class VirtualWalletTestAPI
     {
-        private String name;
+        private String email;
         private double balance;
-        private String bankAccountType;
-        private String bankAccountNumber;
+        private String cardType;
+        private String accountNumber;
 
-        public String Name
+        public String Email
         {
-            get { return name; }
-            set { name = value; }
+            get { return email; }
+            set { email = value; }
         }
 
         public Double Balance
@@ -24,16 +24,16 @@ namespace TestAPI
             set { balance = value; }
         }
 
-        public String BankAccountType
+        public String CardType
         {
-            get { return bankAccountType; }
-            set { bankAccountType = value; }
+            get { return cardType; }
+            set { cardType = value; }
         }
 
-        public String BankAccountNumber
+        public String AccountNumber
         {
-            get { return bankAccountNumber; }
-            set { bankAccountNumber = value; }
+            get { return accountNumber; }
+            set { accountNumber = value; }
         }
     }
 }

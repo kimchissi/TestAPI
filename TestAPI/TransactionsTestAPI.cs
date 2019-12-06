@@ -9,8 +9,8 @@ namespace TestAPI
     {
         private int transactionsID;
         private String transactionsType;
-        private String sendingVirtualWalletID;
-        private String receivingVirtualWalletID;
+        private String sendingVirtualWalletEmail;
+        private String receivingVirtualWalletEmail;
         private Double amount;
 
         public int TransactionsID
@@ -25,16 +25,16 @@ namespace TestAPI
             set { transactionsType = value; }
         }
 
-        public String SendingVirtualWalletID
+        public String SendingVirtualWalletEmail
         {
-            get { return sendingVirtualWalletID; }
-            set { sendingVirtualWalletID = value; }
+            get { return sendingVirtualWalletEmail; }
+            set { sendingVirtualWalletEmail = value; }
         }
 
-        public String ReceivingVirtualWalletID
+        public String ReceivingVirtualWalletEmail
         {
-            get { return receivingVirtualWalletID; }
-            set { receivingVirtualWalletID = value; }
+            get { return receivingVirtualWalletEmail; }
+            set { receivingVirtualWalletEmail = value; }
         }
 
         public Double Amount
