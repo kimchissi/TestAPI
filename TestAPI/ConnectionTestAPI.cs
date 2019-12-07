@@ -11,7 +11,7 @@ namespace APITest
     public class DBConnect
     {
         //public String SqlConnectString { get; set; }
-
+        //String SqlConnectString = "127.0.0.1,5555;Database=fa19_3342_tug91045;User id=tug91045;Password=ShuY4yoo";
         String SqlConnectString = "server=cis-mssql1.temple.edu;Database=fa19_3342_tug91045;User id=tug91045;Password=ShuY4yoo";
         SqlConnection myConnectionSql;
         SqlCommand objCmd;

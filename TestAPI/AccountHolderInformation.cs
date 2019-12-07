@@ -8,9 +8,11 @@ namespace TestAPI
 {
     public class AccountHolderInformation
     {
-        public String email;
-        public String cardType;
-        public String accountNumber;
+        private String email;
+        //private String receiverEmail;
+        private String cardType;
+        private String accountNumber;
+
 
         [JsonProperty(PropertyName = "Email")]
         public String Email
@@ -18,6 +20,13 @@ namespace TestAPI
             get { return email; }
             set { email = value; }
         }
+
+        /*[JsonProperty(PropertyName = "ReceiverEmail")]
+        public String ReceiverEmail
+        {
+            get { return ReceiverEmail; }
+            set { ReceiverEmail = value; }
+        }*/
 
         [JsonProperty(PropertyName = "CardType")]
         public String CardType
@@ -33,12 +42,13 @@ namespace TestAPI
             set { accountNumber = value; }
         }
 
+
         public AccountHolderInformation()
         {
 
         }
 
-        public AccountHolderInformation(string email, string cardType, string accountNumber)
+        public AccountHolderInformation(string email, string receiverEmail, string cardType, string accountNumber, double amount)
         {
             this.email = email;
             this.cardType = cardType;
