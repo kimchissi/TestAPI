@@ -17,8 +17,6 @@ namespace PaymentAPI.Controllers
     {
         DBConnect myDBConnect = new DBConnect();
         SqlCommand myDBCommand = new SqlCommand();
-        //String SqlConnectString = "server=127.0.0.1,5555;Database=fa19_3342_tug91045;User id=tug91045;Password=ShuY4yoo";
-        //String SqlConnectString = "server=cis-mssql1.temple.edu;Database=fa19_3342_tug91045;User id=tug91045;Password=ShuY4yoo";
 
         [HttpPost("Create/{merchantAccountID}/{apiKey}")]
         public string CreateVirtualWallet([FromBody]AccountHolderInformation accountHolderInformation, int merchantAccountID, String apiKey)
@@ -32,7 +30,7 @@ namespace PaymentAPI.Controllers
    
             DataSet selectedAPIKey = myDBConnect.GetDataSetUsingCmdObj(myDBCommand);
             //check if APIKey exists
-            if (selectedAPIKey != null && selectedAPIKey.Tables[0].Rows.Count > 0 )
+            if (selectedAPIKey != null && selectedAPIKey.Tables.Count > 0 && selectedAPIKey.Tables[0].Rows.Count > 0)
             {
                 
                 myDBCommand.CommandType = CommandType.StoredProcedure;
@@ -49,7 +47,7 @@ namespace PaymentAPI.Controllers
 
                 
                 int id = Convert.ToInt32(myDBCommand.Parameters["@theVirtualWalletID"].Value);
-                return "Created new Virtual Wallet with id: " + id;
+                return "true";
             }
 
             return "API Key and Merchant Account ID do not match";
@@ -67,7 +65,7 @@ namespace PaymentAPI.Controllers
             myDBCommand.Parameters.AddWithValue("@theMerchantAccountID", merchantAccountID);
             DataSet selectedAPIKey = myDBConnect.GetDataSetUsingCmdObj(myDBCommand);
             //checks if api key exists
-            if (selectedAPIKey != null && selectedAPIKey.Tables[0].Rows.Count > 0)
+            if (selectedAPIKey != null && selectedAPIKey.Tables.Count > 0 && selectedAPIKey.Tables[0].Rows.Count > 0)
             {
                 myDBCommand.Parameters.Clear();
                 myDBCommand.CommandType = CommandType.StoredProcedure;
@@ -105,7 +103,7 @@ namespace PaymentAPI.Controllers
             myDBCommand.Parameters.AddWithValue("@theMerchantAccountID", merchantAccountID);
             DataSet selectedAPIKey = myDBConnect.GetDataSetUsingCmdObj(myDBCommand);
             //check if APIKey exists and matches Merchant Account ID
-            if (selectedAPIKey != null && selectedAPIKey.Tables[0].Rows.Count > 0)
+            if (selectedAPIKey != null && selectedAPIKey.Tables.Count > 0 && selectedAPIKey.Tables[0].Rows.Count > 0)
             {
                 myDBCommand.Parameters.Clear();
                 myDBCommand.CommandType = CommandType.StoredProcedure;
@@ -171,7 +169,7 @@ namespace PaymentAPI.Controllers
                     myDBCommand.Parameters.AddWithValue("@theAmount", amount);
                     myDBConnect.DoUpdateUsingCmdObj(myDBCommand);
 
-                    return "Payment successfully processed";
+                    return "true";
                 }
                 return "Insufficient funds";
             }
@@ -188,7 +186,7 @@ namespace PaymentAPI.Controllers
             myDBCommand.Parameters.AddWithValue("@theMerchantAccountID", merchantAccountID);
             DataSet selectedAPIKey = myDBConnect.GetDataSetUsingCmdObj(myDBCommand);
             //check if APIKey exists
-            if (selectedAPIKey != null && selectedAPIKey.Tables[0].Rows.Count > 0)
+            if (selectedAPIKey != null && selectedAPIKey.Tables.Count > 0 && selectedAPIKey.Tables[0].Rows.Count > 0)
             {
                 //first get users id using their email
                 myDBCommand.Parameters.Clear();
@@ -213,7 +211,7 @@ namespace PaymentAPI.Controllers
                 myDBCommand.Parameters.AddWithValue("@theAccountNumber", accountHolderInformation.AccountNumber);
                 myDBConnect.DoUpdateUsingCmdObj(myDBCommand);
 
-                return "updated card type to: " + accountHolderInformation.CardType + " updated account number to: " + accountHolderInformation.AccountNumber + " for user: " + accountHolderInformation.Email;
+                return "true";
             }
             return "API Key and Merchant Account ID do not match";
         }
@@ -229,7 +227,7 @@ namespace PaymentAPI.Controllers
 
             DataSet selectedAPIKey = myDBConnect.GetDataSetUsingCmdObj(myDBCommand);
             //check if APIKey exists and matches Merchant Account ID
-            if (selectedAPIKey.Tables[0].Rows.Count > 0)
+            if (selectedAPIKey != null && selectedAPIKey.Tables.Count > 0 && selectedAPIKey.Tables[0].Rows.Count > 0)
             {
                 //first get users id using their email
                 myDBCommand.Parameters.Clear();
@@ -264,7 +262,7 @@ namespace PaymentAPI.Controllers
                 myDBCommand.Parameters.AddWithValue("@theMerchantAccountID", merchantAccountID);
                 myDBConnect.DoUpdateUsingCmdObj(myDBCommand);
 
-                return "Added " + amount + " to wallet.";
+                return "true";
             }
             return "API Key and Merchant Account ID do not match";
         }
